@@ -21,7 +21,7 @@ class TimeCounter
         $this->countSpentTime();
 
         $totalTimeText = $this->getTimeByLines();
-        $totalTimeText = $totalTimeText.'Total: ';
+        $totalTimeText = $totalTimeText.'----'.PHP_EOL;
         return $totalTimeText.$this->totalTime['hours'].'.'.$this->formatMinutesOutput($this->totalTime['minutes']);
     }
 
