@@ -14,6 +14,7 @@ class TimeCounterTest extends PHPUnit_Framework_TestCase
         $timeCounter = new TimeCounter($input);
 
         $this->assertEquals($result, $timeCounter->getTotalTime());
+        $this->assertEquals($result, $timeCounter->getTotalTime());
     }
 
     public function testTimeCountProvider()

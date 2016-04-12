@@ -2,14 +2,7 @@
 
 class TimeCounter
 {
-    private $totalTime = [
-        'hours' => 0,
-        'minutes' => 0
-    ];
-
     private $timeLines;
-
-    private $spentTimeLinesList;
 
     public function __construct($spentTimeText)
     {
@@ -18,26 +11,30 @@ class TimeCounter
 
     public function getTotalTime()
     {
-        $this->countSpentTime();
+        $spentTimeText = '';
 
-        $totalTimeText = $this->getTimeByLines();
-        $totalTimeText = $totalTimeText.'----'.PHP_EOL;
-        return $totalTimeText.$this->totalTime['hours'].'.'.$this->formatMinutesOutput($this->totalTime['minutes']);
-    }
+        $totalTime = [
+            'hours' => 0,
+            'minutes' => 0
+        ];
 
-    private function countSpentTime()
-    {
         foreach ($this->timeLines as $timeLine) {
             $trimmedTimeLine = trim($timeLine);
 
             if ($trimmedTimeLine != '') {
-                $spentTime = $this->getSpentTime($trimmedTimeLine);
-                $this->accumulateResult($spentTime->format('%h.%i'));
+                $timeLineParsed = $this->parseTimeLine($trimmedTimeLine);
+                $spentTime = $timeLineParsed['end']->diff($timeLineParsed['start']);
+
+                $totalTime = $this->accumulateResult($totalTime, $spentTime->format('%h.%i'));
+                $spentTimeText = $spentTimeText.$this->formatTimeLine($timeLineParsed, $spentTime);
             }
         }
+
+        return $spentTimeText.'----'.PHP_EOL
+            .$totalTime['hours'].'.'.$this->formatMinutesOutput($totalTime['minutes']);
     }
 
-    private function getSpentTime($timeLine)
+    private function parseTimeLine($timeLine)
     {
         $timeParsed = $this->getStartEndTime($timeLine);
 
@@ -47,10 +44,10 @@ class TimeCounter
         $timeEnd = new DateTime('tomorrow');
         $timeEnd->setTime($timeParsed['end']['hours'], $timeParsed['end']['minutes']);
 
-        $spentTime = $timeStart->diff($timeEnd);
-        $this->addSpentTimeToList($timeParsed, $spentTime);
-
-        return $spentTime;
+        return [
+            'start' => $timeStart,
+            'end' => $timeEnd
+        ];
     }
 
     private function getStartEndTime($timeLine)
@@ -76,37 +73,27 @@ class TimeCounter
         ];
     }
 
-    private function addSpentTimeToList($timeInterval, DateInterval $spentTime)
+    private function formatTimeLine($timeInterval, DateInterval $spentTime)
     {
-        $this->spentTimeLinesList[] =
-            $timeInterval['start']['hours'].'.'.$timeInterval['start']['minutes'].' - '.
-            $timeInterval['end']['hours'].'.'.$timeInterval['end']['minutes'].' = '.$spentTime->format('%h.%I');
+        return $timeInterval['start']->format('H.i').' - '.
+            $timeInterval['end']->format('H.i').' = '.$spentTime->format('%h.%I').PHP_EOL;
     }
 
-    private function accumulateResult($diffToAdd)
+    private function accumulateResult($totalTime, $diffToAdd)
     {
         $pattern = '/(\d+).(\d+)/';
 
         preg_match($pattern, $diffToAdd, $diffParsed);
 
-        $this->totalTime['hours'] += $diffParsed[1];
-        $this->totalTime['minutes'] += $diffParsed[2];
+        $totalTime['hours'] += $diffParsed[1];
+        $totalTime['minutes'] += $diffParsed[2];
 
-        while ($this->totalTime['minutes'] > 60) {
-            $this->totalTime['hours'] += 1;
-            $this->totalTime['minutes'] -= 60;
-        }
-    }
-
-    private function getTimeByLines()
-    {
-        $output = '';
-
-        foreach ($this->spentTimeLinesList as $spentTimeLine) {
-            $output = $output.$spentTimeLine.PHP_EOL;
+        while ($totalTime['minutes'] > 60) {
+            $totalTime['hours'] += 1;
+            $totalTime['minutes'] -= 60;
         }
 
-        return $output;
+        return $totalTime;
     }
 
     private function formatMinutesOutput($minutes)
