@@ -31,7 +31,7 @@ class TimeCounter
         }
 
         return $spentTimeText.'----'.PHP_EOL
-            .$totalTime['hours'].'.'.$this->formatMinutesOutput($totalTime['minutes']);
+            .$totalTime['hours'].'.'.$this->formatMinutesOutput($totalTime['minutes']).PHP_EOL;
     }
 
     private function parseTimeLine($timeLine)
