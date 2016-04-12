@@ -23,17 +23,19 @@ class TimeCounterTest extends PHPUnit_Framework_TestCase
             [
                 '14,00 - 15,45
                 16.08 - 16.58',
-                '14.00 - 15.45 = 1.45'.PHP_EOL
+
+                 '14.00 - 15.45 = 1.45'.PHP_EOL
                 .'16.08 - 16.58 = 0.50'.PHP_EOL
-                .'----'.PHP_EOL
-                .'2.35'
+                .'                ----'.PHP_EOL
+                .'                2.35'.PHP_EOL
             ],
 
             [
                 '23,01 - 03,01 ',
-                '23.01 - 03.01 = 4.00'.PHP_EOL
-                .'----'.PHP_EOL
-                .'4.00',
+
+                 '23.01 - 03.01 = 4.00'.PHP_EOL
+                .'                ----'.PHP_EOL
+                .'                4.00'.PHP_EOL,
             ],
 
             [
@@ -42,11 +44,12 @@ class TimeCounterTest extends PHPUnit_Framework_TestCase
 
 
                 23.24 - 01.13',
+
                 '14.01 - 14.05 = 0.04'.PHP_EOL
                 .'12.42 - 12.48 = 0.06'.PHP_EOL
                 .'23.24 - 01.13 = 1.49'.PHP_EOL
-                .'----'.PHP_EOL
-                .'1.59'
+                .'                ----'.PHP_EOL
+                .'                1.59'.PHP_EOL
             ],
         ];
     }
@@ -67,7 +70,7 @@ class TimeCounterTest extends PHPUnit_Framework_TestCase
                 11.40 - 13,30 = 1.50
                 14,18 - 16.34 = 2.16
                 ----
-                4.06';
+                4.06'.PHP_EOL;
         $timeCounter = new TimeCounter($invalidInput);
 
         $timeCounter->getTotalTime();
@@ -82,8 +85,8 @@ class TimeCounterTest extends PHPUnit_Framework_TestCase
             ';
         $output = '11.40 - 13.30 = 1.50'.PHP_EOL
             .'14.18 - 16.34 = 2.16'.PHP_EOL
-            .'----'.PHP_EOL
-            .'4.06';
+            .'                ----'.PHP_EOL
+            .'                4.06'.PHP_EOL;
 
         $timeCounter = new TimeCounter($input);
 

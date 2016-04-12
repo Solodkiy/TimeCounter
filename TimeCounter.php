@@ -4,7 +4,7 @@ class TimeCounter
 {
     private $timeLines;
 
-    public function __construct($spentTimeText)
+    public function __construct($spentTimeText, $maxWorkHours = 8)
     {
         $this->timeLines = explode(PHP_EOL, $spentTimeText);
     }
@@ -30,8 +30,8 @@ class TimeCounter
             }
         }
 
-        return $spentTimeText.'----'.PHP_EOL
-            .$totalTime['hours'].'.'.$this->formatMinutesOutput($totalTime['minutes']).PHP_EOL;
+        return $spentTimeText.str_pad('----', 20, ' ', STR_PAD_LEFT).PHP_EOL
+            .str_pad($totalTime['hours'].'.'.str_pad($totalTime['minutes'], 2, '0', STR_PAD_LEFT), 20, ' ', STR_PAD_LEFT).PHP_EOL;
     }
 
     private function parseTimeLine($timeLine)
@@ -52,7 +52,7 @@ class TimeCounter
 
     private function getStartEndTime($timeLine)
     {
-        $pattern = '/^(\d+)[.|,](\d+) *- *(\d+)[.|,](\d+)$/';
+        $pattern = '/^(\d+)[.|,](\d+)\s*-\s*(\d+)[.|,](\d+)$/';
 
         $isSuccess = preg_match($pattern, $timeLine, $timeParsed);
 
@@ -94,14 +94,5 @@ class TimeCounter
         }
 
         return $totalTime;
-    }
-
-    private function formatMinutesOutput($minutes)
-    {
-        if ($minutes < 10) {
-            return '0'.$minutes;
-        }
-
-        return $minutes;
     }
 }
