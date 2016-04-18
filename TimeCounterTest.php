@@ -51,6 +51,16 @@ class TimeCounterTest extends PHPUnit_Framework_TestCase
                 .'                ----'.PHP_EOL
                 .'                1.59'.PHP_EOL
             ],
+
+            [
+                '14,00 - 15,40
+                16.08 - 16.28',
+
+                '14.00 - 15.40 = 1.40'.PHP_EOL
+                .'16.08 - 16.28 = 0.20'.PHP_EOL
+                .'                ----'.PHP_EOL
+                .'                2.00'.PHP_EOL
+            ],
         ];
     }
 

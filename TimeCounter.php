@@ -88,7 +88,7 @@ class TimeCounter
         $totalTime['hours'] += $diffParsed[1];
         $totalTime['minutes'] += $diffParsed[2];
 
-        while ($totalTime['minutes'] > 60) {
+        while ($totalTime['minutes'] >= 60) {
             $totalTime['hours'] += 1;
             $totalTime['minutes'] -= 60;
         }
