@@ -31,9 +31,17 @@ class TimeCounterTest extends PHPUnit_Framework_TestCase
             ],
 
             [
-                '23,01 - 03,01 ',
+                '23:01 - 03:01 ',
 
                  '23:01 - 03:01 = 4:00'.PHP_EOL
+                .'                ----'.PHP_EOL
+                .'                4:00'.PHP_EOL,
+            ],
+
+            [
+                '23:01 - 03:01  =  4',
+
+                '23:01 - 03:01 = 4:00'.PHP_EOL
                 .'                ----'.PHP_EOL
                 .'                4:00'.PHP_EOL,
             ],

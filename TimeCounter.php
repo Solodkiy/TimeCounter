@@ -53,7 +53,7 @@ class TimeCounter
 
     private function getStartEndTime($timeLine)
     {
-        $pattern = '/^(\d+)[.|,](\d+)\s*-\s*(\d+)[.|,](\d+)$/';
+        $pattern = '/^(\d+)[.|,|:](\d+)\s*-\s*(\d+)[.|,|:](\d+)/';
 
         $isSuccess = preg_match($pattern, $timeLine, $timeParsed);
 
