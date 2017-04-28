@@ -1,6 +1,7 @@
 #! /usr/bin/php
 <?php
-require_once "TimeCounter.php";
+
+require_once __DIR__.'/../vendor/autoload.php';
 
 $stdin = fopen('php://stdin', 'r');
 $stdout = fopen('php://stdout', 'w');
